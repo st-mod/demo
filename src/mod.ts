@@ -65,3 +65,13 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
     })
     return element
 }
+export const stdn:UnitCompiler=async (unit,compiler)=>{
+    return await compiler.compileUnit({
+        tag:'code',
+        options:{
+            lang:'stdn',
+            block:true
+        },
+        children:stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n').split('\n').map(val=>val.split(''))
+    })
+}

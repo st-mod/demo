@@ -37,7 +37,6 @@ export const demo = async (unit, compiler) => {
         if (result !== undefined) {
             container.innerHTML = '';
             container.append(result.documentFragment);
-            console.log(result);
             if (html) {
                 const pre = await result.compiler.compileSTDN([[{
                             tag: 'code',
@@ -65,4 +64,14 @@ export const demo = async (unit, compiler) => {
         await render();
     });
     return element;
+};
+export const stdn = async (unit, compiler) => {
+    return await compiler.compileUnit({
+        tag: 'code',
+        options: {
+            lang: 'stdn',
+            block: true
+        },
+        children: stringify(unit.children).replace(/{placeholder \[\]}\n/g, '//\n').split('\n').map(val => val.split(''))
+    });
 };
