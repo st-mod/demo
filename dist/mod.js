@@ -26,24 +26,30 @@ export const demo = async (unit, compiler) => {
         });
         source.innerHTML = '';
         source.append(pre);
-        const result = await compile(`{css-gh st-org/stui@0.2.1, global []}\n{css-gh st-org/sthl@0.2.5, global []}\n{css-gh st-org/st-std@0.4.7, ucs-gh st-org/st-std@0.4.7, global []}\n${cstring}`, compiler.context.dir);
+        const result = await compile(cstring, compiler.context.dir, {
+            style,
+            headSTDN: [
+                [{ tag: 'global', options: { 'css-gh': 'st-org/stui@0.2.1' }, children: [] }],
+                [{ tag: 'global', options: { 'css-gh': 'st-org/sthl@0.2.5' }, children: [] }],
+                [{ tag: 'global', options: { 'css-gh': 'st-org/st-std@0.6.0', 'ucs-gh': 'st-org/st-std@0.6.0' }, children: [] }]
+            ]
+        });
         if (result !== undefined) {
             container.innerHTML = '';
-            style.textContent = result.context.css;
             container.append(result.documentFragment);
-        }
-        if (html) {
-            const { innerHTML } = container;
-            const pre = await compiler.compileUnit({
-                tag: 'code',
-                options: {
-                    lang: 'html',
-                    block: true
-                },
-                children: innerHTML.slice('<div class="st-line"><div class="unit global"></div></div>'.length * 3).split('\n').map(val => val.split(''))
-            });
-            container.innerHTML = '';
-            container.append(pre);
+            console.log(result);
+            if (html) {
+                const pre = await result.compiler.compileSTDN([[{
+                            tag: 'code',
+                            options: {
+                                lang: 'html',
+                                block: true
+                            },
+                            children: container.innerHTML.split('\n').map(val => val.split(''))
+                        }]]);
+                container.innerHTML = '';
+                container.append(pre);
+            }
         }
     }
     await render();
