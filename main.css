@@ -1,0 +1,23 @@
+.unit.demo {
+    display: grid;
+    gap: var(--length-gap);
+    grid-template-columns: 1fr 1fr;
+}
+
+.unit.demo>div:first-child:focus {
+    outline: 1px solid var(--color-variable);
+}
+
+.unit.demo>div::before {
+    display: block;
+    margin: var(--length-gap) 0;
+    text-align: center;
+}
+
+.unit.demo>div:first-child::before {
+    content: "Source";
+}
+
+.unit.demo>div:last-child::before {
+    content: "Result";
+}

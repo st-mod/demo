@@ -1,0 +1,18 @@
+{title [Test]}
+{css-src main.css, ucs-src ucs.js, global []}
+{demo [
+    //
+    {align [
+        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+        ['&\cong\Z \tag*{'{compile-with index, mark {[
+            {placeholder []}
+            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+        ]}, equation []}'}']
+    ]}
+]}
+[]
+{html, demo [
+    first line
+    ['second '{span [line]}]
+]}
+[]
