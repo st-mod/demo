@@ -1,5 +1,5 @@
 import {stringify} from 'stdn'
-import {compile,getLastGlobalOption, UnitCompiler} from '@ddu6/stc'
+import {compile,getLastGlobalOption,UnitCompiler} from '@ddu6/stc'
 export const demo:UnitCompiler=async (unit,compiler)=>{
     const string=stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n')
     const html=(unit.options.html??getLastGlobalOption('html','demo',compiler.context.tagToGlobalOptions))===true
