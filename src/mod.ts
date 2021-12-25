@@ -6,9 +6,14 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
     const element=document.createElement('div')
     const source=document.createElement('div')
     const resultEle=document.createElement('div')
+    const root=resultEle.attachShadow({mode:'open'})
+    const style=document.createElement('style')
+    const container=document.createElement('div')
     source.contentEditable='true'
     element.append(source)
     element.append(resultEle)
+    root.append(style)
+    root.append(container)
     let cstring=string
     async function render(){
         const pre=await compiler.compileUnit({
@@ -21,25 +26,24 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
         })
         source.innerHTML=''
         source.append(pre)
-        const result=await compile(cstring,compiler.context.dir,{
-            builtInTagToUnitCompiler:compiler.context.tagToUnitCompiler
-        })
+        const result=await compile(`{css-gh st-org/stui@0.2.1, mod-gh st-org/st-std@0.4.7, global []}\n${cstring}`,compiler.context.dir)
         if(result!==undefined){
-            resultEle.innerHTML=''
-            resultEle.append(result.documentFragment)
+            container.innerHTML=''
+            style.textContent=result.context.css
+            container.append(result.documentFragment)
         }
         if(html){
-            const {innerHTML}=resultEle
+            const {innerHTML}=container
             const pre=await compiler.compileUnit({
                 tag:'code',
                 options:{
                     lang:'html',
                     block:true
                 },
-                children:innerHTML.split('\n').map(val=>val.split(''))
+                children:innerHTML.slice('<div class="st-line"><div class="unit global"></div></div>'.length).split('\n').map(val=>val.split(''))
             })
-            resultEle.innerHTML=''
-            resultEle.append(pre)
+            container.innerHTML=''
+            container.append(pre)
         }
     }
     await render()
