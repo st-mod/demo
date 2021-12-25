@@ -16,3 +16,24 @@
     ['second '{span [line]}]
 ]}
 []
+{demo [
+    {global, vsce cpp, code []}
+    {global, vsce-gh James-Yu/LaTeX-Workshop, code []}
+    {lang c, code [
+        'int main(){'
+        '    return 0;'
+        '}'
+    ]}
+    {lang latex, code [
+        '\begin{document}'
+        '$e^{i\pi}=-1$'
+        '\end{document}'
+    ]}
+    {lang bibtex, code [
+        '@article {MR721448,'
+        '    AUTHOR = {Atiyah, M. F. and Bott, R.},'
+        '    TITLE = {The moment map and equivariant cohomology}'
+        '}'
+    ]}
+]}
+[]

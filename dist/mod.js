@@ -26,7 +26,7 @@ export const demo = async (unit, compiler) => {
         });
         source.innerHTML = '';
         source.append(pre);
-        const result = await compile(`{css-gh st-org/stui@0.2.1, mod-gh st-org/st-std@0.4.7, global []}\n${cstring}`, compiler.context.dir);
+        const result = await compile(`{css-gh st-org/stui@0.2.1, global []}\n{css-gh st-org/sthl@0.2.5, global []}\n{css-gh st-org/st-std@0.4.7, ucs-gh st-org/st-std@0.4.7, global []}\n${cstring}`, compiler.context.dir);
         if (result !== undefined) {
             container.innerHTML = '';
             style.textContent = result.context.css;
@@ -40,7 +40,7 @@ export const demo = async (unit, compiler) => {
                     lang: 'html',
                     block: true
                 },
-                children: innerHTML.slice('<div class="st-line"><div class="unit global"></div></div>'.length).split('\n').map(val => val.split(''))
+                children: innerHTML.slice('<div class="st-line"><div class="unit global"></div></div>'.length * 3).split('\n').map(val => val.split(''))
             });
             container.innerHTML = '';
             container.append(pre);
