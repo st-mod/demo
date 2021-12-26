@@ -34,21 +34,39 @@ export const demo = async (unit, compiler) => {
                 [{ tag: 'global', options: { 'css-gh': 'st-org/st-std@0.6.0', 'ucs-gh': 'st-org/st-std@0.6.0' }, children: [] }]
             ]
         });
-        if (result !== undefined) {
+        if (result === undefined) {
+            return;
+        }
+        container.innerHTML = '';
+        container.append(result.documentFragment);
+        if (html) {
+            const pre = await result.compiler.compileSTDN([[{
+                        tag: 'code',
+                        options: {
+                            lang: 'html',
+                            block: true
+                        },
+                        children: container.innerHTML.split('\n').map(val => val.split(''))
+                    }]]);
             container.innerHTML = '';
-            container.append(result.documentFragment);
-            if (html) {
-                const pre = await result.compiler.compileSTDN([[{
-                            tag: 'code',
-                            options: {
-                                lang: 'html',
-                                block: true
-                            },
-                            children: container.innerHTML.split('\n').map(val => val.split(''))
-                        }]]);
-                container.innerHTML = '';
-                container.append(pre);
+            container.append(pre);
+            return;
+        }
+        for (const a of container.querySelectorAll('a[href^="#"]')) {
+            const id = decodeURIComponent((a.getAttribute('href') ?? '').slice(1));
+            a.setAttribute('href', '#%20');
+            let target = container;
+            if (id.length > 0) {
+                const target0 = container.querySelector(`[id=${JSON.stringify(id)}]`);
+                if (target0 === null) {
+                    continue;
+                }
+                target = target0;
             }
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                target.scrollIntoView();
+            });
         }
     }
     await render();
