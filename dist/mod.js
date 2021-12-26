@@ -28,9 +28,9 @@ export const demo = async (unit, compiler) => {
         const result = await compile(cstring, compiler.context.dir, {
             style,
             headSTDN: [
-                [{ tag: 'global', options: { 'css-gh': 'st-org/stui@0.2.1' }, children: [] }],
-                [{ tag: 'global', options: { 'css-gh': 'st-org/sthl@0.2.5' }, children: [] }],
-                [{ tag: 'global', options: { 'css-gh': 'st-org/st-std@0.6.0', 'ucs-gh': 'st-org/st-std@0.6.0' }, children: [] }]
+                [{ tag: 'global', options: { 'css-gh': 'st-org/stui@0.4.0' }, children: [] }],
+                [{ tag: 'global', options: { 'css-gh': 'st-org/sthl@0.5.0' }, children: [] }],
+                [{ tag: 'global', options: { 'css-gh': 'st-org/st-std@0.10.0', 'ucs-gh': 'st-org/st-std@0.10.0' }, children: [] }]
             ]
         });
         if (result === undefined) {

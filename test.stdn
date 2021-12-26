@@ -1,26 +1,20 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
-{demo [
-    //
-    {align [
-        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
-        ['&\cong\Z \tag*{'{compile-with index, mark {[
-            {placeholder []}
-            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
-        ]}, equation []}'}']
-    ]}
-]}
+{demo [{align [
+    ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+    ['&\cong\Z \tag*{'{compile-with index, mark {[
+        {placeholder []}
+        [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+    ]}, equation []}'}']
+]}]}
 []
-{stdn [
-    //
-    {align [
-        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
-        ['&\cong\Z \tag*{'{compile-with index, mark {[
-            {placeholder []}
-            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
-        ]}, equation []}'}']
-    ]}
-]}
+{stdn [{align [
+    ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+    ['&\cong\Z \tag*{'{compile-with index, mark {[
+        {placeholder []}
+        [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+    ]}, equation []}'}']
+]}]}
 []
 {html, demo [
     first line
@@ -60,5 +54,18 @@
     ]}
     ['The first successful proof of '{ref-id flt, ref []}' was released in 1994 by Andrew Wiles.']
     {href #, a [To top]}
+]}
+[]
+{demo [
+    {css-src main.css, ucs-src ucs.js, global []}
+    {demo [
+        Top
+        {id flt, mark FLT, desc Fermat, theorem [
+            ['Let '{'n'}' be an integer greater than '{'2'}', then there are no positive integers '{'a,b,c'}' satisfying']
+            {display, 'a^n+b^n=c^n.'}
+        ]}
+        ['The first successful proof of '{ref-id flt, ref []}' was released in 1994 by Andrew Wiles.']
+        {href #, a [To top]}
+    ]}
 ]}
 []
