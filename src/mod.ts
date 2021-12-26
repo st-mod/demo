@@ -1,7 +1,6 @@
-import {stringify} from 'stdn'
 import {compile,UnitCompiler} from '@ddu6/stc'
 export const demo:UnitCompiler=async (unit,compiler)=>{
-    const string=stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n')
+    const string=compiler.stdn.stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n')
     const html=(unit.options.html??compiler.extractor.extractLastGlobalOption('html','demo',compiler.context.tagToGlobalOptions))===true
     const element=document.createElement('div')
     const source=document.createElement('div')
@@ -90,6 +89,6 @@ export const stdn:UnitCompiler=async (unit,compiler)=>{
             lang:'stdn',
             block:true
         },
-        children:stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n').split('\n').map(val=>val.split(''))
+        children:compiler.stdn.stringify(unit.children).replace(/{placeholder \[\]}\n/g,'//\n').split('\n').map(val=>val.split(''))
     })
 }
