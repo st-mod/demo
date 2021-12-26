@@ -1,8 +1,8 @@
 import { stringify } from 'stdn';
-import { compile, getLastGlobalOption } from '@ddu6/stc';
+import { compile } from '@ddu6/stc';
 export const demo = async (unit, compiler) => {
     const string = stringify(unit.children).replace(/{placeholder \[\]}\n/g, '//\n');
-    const html = (unit.options.html ?? getLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
+    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
     const element = document.createElement('div');
     const source = document.createElement('div');
     const resultEle = document.createElement('div');
