@@ -1,7 +1,7 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
 {demo []}
-{demo [
+{id demo-placeholder, demo [
     //
     {align [
         ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
@@ -12,7 +12,7 @@
     ]}
 ]}
 []
-{demo [
+{ref-id demo-placeholder, demo [
     placeholder
     {css-src main.css, ucs-src ucs.js, global []}
     {demo [
@@ -66,7 +66,7 @@
 []
 {div [flt]}
 []
-{demo [
+{id demo-flt, demo [
     Top
     {id flt, mark FLT, desc Fermat, theorem [
         ['Let '{'n'}' be an integer greater than '{'2'}', then there are no positive integers '{'a,b,c'}' satisfying']
@@ -76,16 +76,8 @@
     {href #, a [To top]}
 ]}
 []
-{demo [
+{ref-id demo-flt, demo [
+    //
     {css-src main.css, ucs-src ucs.js, global []}
-    {demo [
-        Top
-        {id flt, mark FLT, desc Fermat, theorem [
-            ['Let '{'n'}' be an integer greater than '{'2'}', then there are no positive integers '{'a,b,c'}' satisfying']
-            {display, 'a^n+b^n=c^n.'}
-        ]}
-        ['The first successful proof of '{ref-id flt, ref []}' was released in 1994 by Andrew Wiles.']
-        {href #, a [To top]}
-    ]}
 ]}
 []
