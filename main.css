@@ -4,9 +4,16 @@
     grid-template-columns: 1fr 1fr;
 }
 
+.unit.demo>div {
+    display: grid;
+    gap: var(--length-gap);
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr;
+}
+
 .unit.demo>div::before {
     display: block;
-    margin: var(--length-gap) 0;
+    margin: var(--length-space);
     text-align: center;
 }
 
@@ -18,15 +25,9 @@
     content: "Result";
 }
 
-.unit.demo>div:first-child {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content 1fr;
-}
-
 .unit.demo>div:first-child>textarea {
+    font-family: var(--font-mono);
     font-size: var(--length-font-log);
-    height: auto;
     margin: var(--length-gap) 0;
     padding: var(--length-padding);
 }

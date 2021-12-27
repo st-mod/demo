@@ -1,4 +1,7 @@
 import type {UnitCompiler} from '@ddu6/stc'
+const stuiVersion='0.5.0'
+const sthlVersion='0.7.0'
+const stStdVersion='0.14.0'
 export function removePlaceholder(string:string){
     return string.replace(/\n? *placeholder(\n|$)/g,'\n')
 }
@@ -16,27 +19,40 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
     root.append(style)
     root.append(container)
     textarea.value=removePlaceholder(compiler.stdn.stringify(unit.children))
+    let string:string|undefined
+    let sourcePre:Element|undefined
     async function render(){
+        if(sourcePre!==undefined&&textarea.value===string){
+            textarea.replaceWith(sourcePre)
+            return
+        }
+        if(textarea.disabled){
+            return
+        }
+        textarea.disabled=true
+        string=textarea.value
         const pre=await compiler.compileUnit({
             tag:'code',
             options:{
                 lang:'stdn',
                 block:true
             },
-            children:textarea.value.split('\n').map(val=>val.split(''))
+            children:string.split('\n').map(val=>val.split(''))
         })
         source.innerHTML=''
+        sourcePre=pre
         source.append(pre)
         pre.addEventListener('click',()=>{
             pre.replaceWith(textarea)
+            textarea.disabled=false
             textarea.focus()
         })
-        const result=await compiler.compile(textarea.value,compiler.context.dir,{
+        const result=await compiler.compile(string,compiler.context.dir,{
             style,
             headSTDN:[
-                [{tag:'global',options:{'css-gh':'st-org/stui@0.4.0'},children:[]}],
-                [{tag:'global',options:{'css-gh':'st-org/sthl@0.7.0'},children:[]}],
-                [{tag:'global',options:{'css-gh':'st-org/st-std@0.13.0','ucs-gh':'st-org/st-std@0.13.0'},children:[]}]
+                [{tag:'global',options:{'css-gh':`st-org/stui@${stuiVersion}`},children:[]}],
+                [{tag:'global',options:{'css-gh':`st-org/sthl@${sthlVersion}`},children:[]}],
+                [{tag:'global',options:{'css-gh':`st-org/st-std@${stStdVersion}`,'ucs-gh':`st-org/st-std@${stStdVersion}`},children:[]}]
             ]
         })
         if(result===undefined){

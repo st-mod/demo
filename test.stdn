@@ -1,5 +1,6 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
+{demo []}
 {demo [
     //
     {align [
