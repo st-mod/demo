@@ -6,6 +6,7 @@ export function removePlaceholder(string:string){
     return string.replace(/\n? *placeholder(\n|$)/g,'\n')
 }
 export const demo:UnitCompiler=async (unit,compiler)=>{
+    const html=(unit.options.html??compiler.extractor.extractLastGlobalOption('html','demo',compiler.context.tagToGlobalOptions))===true
     const element=document.createElement('div')
     const source=document.createElement('div')
     const resultEle=document.createElement('div')
@@ -17,9 +18,7 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
     element.append(resultEle)
     root.append(style)
     root.append(container)
-    const html=(unit.options.html??compiler.extractor.extractLastGlobalOption('html','demo',compiler.context.tagToGlobalOptions))===true
-    textarea.value=removePlaceholder(compiler.stdn.stringify(unit.children))
-    let string:string|undefined
+    let string=textarea.value=removePlaceholder(compiler.stdn.stringify(unit.children))
     let sourcePre:Element|undefined
     async function render(){
         if(sourcePre!==undefined&&textarea.value===string){
