@@ -17,7 +17,7 @@
     placeholder
     {css-src main.css, ucs-src ucs.js, global []}
     {demo [
-        //
+        placeholder
         {align [
             ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
             ['&\cong\Z \tag*{'{compile-with index, mark {[
