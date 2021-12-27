@@ -1,8 +1,58 @@
 const stuiVersion = '0.5.0';
 const sthlVersion = '0.7.0';
 const stStdVersion = '0.14.0';
-export function removePlaceholder(string) {
+export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
+}
+export async function createSourcePre(string, compiler) {
+    return await compiler.compileUnit({
+        tag: 'code',
+        options: {
+            lang: 'stdn',
+            block: true
+        },
+        children: string.split('\n').map(val => val.split(''))
+    });
+}
+export async function shadowCompile(string, style, compiler) {
+    return await compiler.compile(string, compiler.context.dir, {
+        style,
+        headSTDN: [
+            [{ tag: 'global', options: { 'css-gh': `st-org/stui@${stuiVersion}` }, children: [] }],
+            [{ tag: 'global', options: { 'css-gh': `st-org/sthl@${sthlVersion}` }, children: [] }],
+            [{ tag: 'global', options: { 'css-gh': `st-org/st-std@${stStdVersion}`, 'ucs-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
+        ]
+    });
+}
+export async function toHTMLPre(container, compiler) {
+    const pre = await compiler.compileSTDN([[{
+                tag: 'code',
+                options: {
+                    lang: 'html',
+                    block: true
+                },
+                children: container.innerHTML.split('\n').map(val => val.split(''))
+            }]]);
+    container.innerHTML = '';
+    container.append(pre);
+}
+export function fixHashAnchors(container) {
+    for (const a of container.querySelectorAll('a[href^="#"]')) {
+        const id = decodeURIComponent((a.getAttribute('href') ?? '').slice(1));
+        a.setAttribute('href', '#%20');
+        let target = container;
+        if (id.length > 0) {
+            const target0 = container.querySelector(`[id=${JSON.stringify(id)}]`);
+            if (target0 === null) {
+                continue;
+            }
+            target = target0;
+        }
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            target.scrollIntoView();
+        });
+    }
 }
 export const demo = async (unit, compiler) => {
     const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
@@ -17,7 +67,7 @@ export const demo = async (unit, compiler) => {
     element.append(resultEle);
     root.append(style);
     root.append(container);
-    let string = textarea.value = removePlaceholder(compiler.stdn.stringify(unit.children));
+    let string = textarea.value = removePlaceholders(compiler.stdn.stringify(unit.children));
     let sourcePre;
     async function render() {
         if (sourcePre !== undefined && textarea.value === string) {
@@ -29,14 +79,7 @@ export const demo = async (unit, compiler) => {
         }
         textarea.disabled = true;
         string = textarea.value;
-        const pre = await compiler.compileUnit({
-            tag: 'code',
-            options: {
-                lang: 'stdn',
-                block: true
-            },
-            children: string.split('\n').map(val => val.split(''))
-        });
+        const pre = await createSourcePre(string, compiler);
         source.innerHTML = '';
         sourcePre = pre;
         source.append(pre);
@@ -45,60 +88,42 @@ export const demo = async (unit, compiler) => {
             textarea.disabled = false;
             textarea.focus();
         });
-        const result = await compiler.compile(string, compiler.context.dir, {
-            style,
-            headSTDN: [
-                [{ tag: 'global', options: { 'css-gh': `st-org/stui@${stuiVersion}` }, children: [] }],
-                [{ tag: 'global', options: { 'css-gh': `st-org/sthl@${sthlVersion}` }, children: [] }],
-                [{ tag: 'global', options: { 'css-gh': `st-org/st-std@${stStdVersion}`, 'ucs-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
-            ]
-        });
+        const result = await shadowCompile(string, style, compiler);
         if (result === undefined) {
             return;
         }
         container.innerHTML = '';
         container.append(result.documentFragment);
         if (html) {
-            const pre = await result.compiler.compileSTDN([[{
-                        tag: 'code',
-                        options: {
-                            lang: 'html',
-                            block: true
-                        },
-                        children: container.innerHTML.split('\n').map(val => val.split(''))
-                    }]]);
-            container.innerHTML = '';
-            container.append(pre);
+            await toHTMLPre(container, result.compiler);
             return;
         }
-        for (const a of container.querySelectorAll('a[href^="#"]')) {
-            const id = decodeURIComponent((a.getAttribute('href') ?? '').slice(1));
-            a.setAttribute('href', '#%20');
-            let target = container;
-            if (id.length > 0) {
-                const target0 = container.querySelector(`[id=${JSON.stringify(id)}]`);
-                if (target0 === null) {
-                    continue;
-                }
-                target = target0;
-            }
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                target.scrollIntoView();
-            });
-        }
+        fixHashAnchors(container);
     }
     await render();
     textarea.addEventListener('blur', render);
     return element;
 };
 export const source = async (unit, compiler) => {
-    return await compiler.compileUnit({
-        tag: 'code',
-        options: {
-            lang: 'stdn',
-            block: true
-        },
-        children: removePlaceholder(compiler.stdn.stringify(unit.children)).split('\n').map(val => val.split(''))
-    });
+    return await createSourcePre(removePlaceholders(compiler.stdn.stringify(unit.children)), compiler);
+};
+export const result = async (unit, compiler) => {
+    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true;
+    const element = document.createElement('div');
+    const root = element.attachShadow({ mode: 'open' });
+    const style = document.createElement('style');
+    const container = document.createElement('div');
+    root.append(style);
+    root.append(container);
+    const result = await shadowCompile(compiler.stdn.stringify(unit.children), style, compiler);
+    if (result === undefined) {
+        return element;
+    }
+    container.append(result.documentFragment);
+    if (html) {
+        await toHTMLPre(container, result.compiler);
+        return element;
+    }
+    fixHashAnchors(container);
+    return element;
 };
