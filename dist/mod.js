@@ -1,4 +1,3 @@
-import { compile } from '@ddu6/stc';
 export function removePlaceholder(string) {
     return string.replace(/\n? *placeholder\n/g, '\n');
 }
@@ -28,7 +27,7 @@ export const demo = async (unit, compiler) => {
         });
         source.innerHTML = '';
         source.append(pre);
-        const result = await compile(cstring, compiler.context.dir, {
+        const result = await compiler.compile(cstring, compiler.context.dir, {
             style,
             headSTDN: [
                 [{ tag: 'global', options: { 'css-gh': 'st-org/stui@0.4.0' }, children: [] }],
