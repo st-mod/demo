@@ -1,7 +1,8 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
 {demo []}
-{id demo-placeholder, demo [
+[]
+{demo [
     //
     {align [
         ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
@@ -12,7 +13,7 @@
     ]}
 ]}
 []
-{ref-id demo-placeholder, demo [
+{demo [
     placeholder
     {css-src main.css, ucs-src ucs.js, global []}
     {demo [
@@ -28,13 +29,27 @@
     placeholder
 ]}
 []
-{source [{align [
-    ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
-    ['&\cong\Z \tag*{'{compile-with index, mark {[
-        placeholder
-        [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
-    ]}, equation []}'}']
-]}]}
+{source [
+    //
+    {align [
+        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+        ['&\cong\Z \tag*{'{compile-with index, mark {[
+            placeholder
+            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+        ]}, equation []}'}']
+    ]}
+]}
+[]
+{result [
+    //
+    {align [
+        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+        ['&\cong\Z \tag*{'{compile-with index, mark {[
+            //
+            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+        ]}, equation []}'}']
+    ]}
+]}
 []
 {html, demo [
     first line
@@ -66,7 +81,7 @@
 []
 {div [flt]}
 []
-{id demo-flt, demo [
+{demo [
     Top
     {id flt, mark FLT, desc Fermat, theorem [
         ['Let '{'n'}' be an integer greater than '{'2'}', then there are no positive integers '{'a,b,c'}' satisfying']
@@ -76,8 +91,16 @@
     {href #, a [To top]}
 ]}
 []
-{ref-id demo-flt, demo [
-    //
+{demo [
     {css-src main.css, ucs-src ucs.js, global []}
+    {demo [
+        Top
+        {id flt, mark FLT, desc Fermat, theorem [
+            ['Let '{'n'}' be an integer greater than '{'2'}', then there are no positive integers '{'a,b,c'}' satisfying']
+            {display, 'a^n+b^n=c^n.'}
+        ]}
+        ['The first successful proof of '{ref-id flt, ref []}' was released in 1994 by Andrew Wiles.']
+        {href #, a [To top]}
+    ]}
 ]}
 []

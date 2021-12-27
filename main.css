@@ -13,7 +13,7 @@
 
 .unit.demo>div::before {
     display: block;
-    margin: var(--length-space);
+    margin: var(--length-space) 0;
     text-align: center;
 }
 
