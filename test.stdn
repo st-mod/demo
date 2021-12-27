@@ -1,17 +1,34 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
-{demo [{align [
-    ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
-    ['&\cong\Z \tag*{'{compile-with index, mark {[
-        {placeholder []}
-        [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
-    ]}, equation []}'}']
-]}]}
+{demo [
+    //
+    {align [
+        ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+        ['&\cong\Z \tag*{'{compile-with index, mark {[
+            placeholder
+            [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+        ]}, equation []}'}']
+    ]}
+]}
+[]
+{demo [
+    {css-src main.css, ucs-src ucs.js, global []}
+    {demo [
+        //
+        {align [
+            ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
+            ['&\cong\Z \tag*{'{compile-with index, mark {[
+                placeholder placeholder
+                [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
+            ]}, equation []}'}']
+        ]}
+    ]}
+]}
 []
 {stdn [{align [
     ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
     ['&\cong\Z \tag*{'{compile-with index, mark {[
-        {placeholder []}
+        placeholder
         [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
     ]}, equation []}'}']
 ]}]}
