@@ -1,22 +1,21 @@
 import type {UnitCompiler} from '@ddu6/stc'
 export function removePlaceholder(string:string){
-    return string.replace(/\n? *placeholder\n/g,'\n')
+    return string.replace(/\n? *placeholder(\n|$)/g,'\n')
 }
 export const demo:UnitCompiler=async (unit,compiler)=>{
-    const string=removePlaceholder(compiler.stdn.stringify(unit.children))
     const html=(unit.options.html??compiler.extractor.extractLastGlobalOption('html','demo',compiler.context.tagToGlobalOptions))===true
     const element=document.createElement('div')
     const source=document.createElement('div')
     const resultEle=document.createElement('div')
+    const textarea=document.createElement('textarea')
     const root=resultEle.attachShadow({mode:'open'})
     const style=document.createElement('style')
     const container=document.createElement('div')
-    source.contentEditable='true'
     element.append(source)
     element.append(resultEle)
     root.append(style)
     root.append(container)
-    let cstring=string
+    textarea.value=removePlaceholder(compiler.stdn.stringify(unit.children))
     async function render(){
         const pre=await compiler.compileUnit({
             tag:'code',
@@ -24,16 +23,20 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
                 lang:'stdn',
                 block:true
             },
-            children:cstring.split('\n').map(val=>val.split(''))
+            children:textarea.value.split('\n').map(val=>val.split(''))
         })
         source.innerHTML=''
         source.append(pre)
-        const result=await compiler.compile(cstring,compiler.context.dir,{
+        pre.addEventListener('click',()=>{
+            pre.replaceWith(textarea)
+            textarea.focus()
+        })
+        const result=await compiler.compile(textarea.value,compiler.context.dir,{
             style,
             headSTDN:[
                 [{tag:'global',options:{'css-gh':'st-org/stui@0.4.0'},children:[]}],
-                [{tag:'global',options:{'css-gh':'st-org/sthl@0.5.0'},children:[]}],
-                [{tag:'global',options:{'css-gh':'st-org/st-std@0.10.0','ucs-gh':'st-org/st-std@0.10.0'},children:[]}]
+                [{tag:'global',options:{'css-gh':'st-org/sthl@0.7.0'},children:[]}],
+                [{tag:'global',options:{'css-gh':'st-org/st-std@0.13.0','ucs-gh':'st-org/st-std@0.13.0'},children:[]}]
             ]
         })
         if(result===undefined){
@@ -72,20 +75,10 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
         }
     }
     await render()
-    source.addEventListener('blur',async ()=>{
-        if(source.children.length===0){
-            return
-        }
-        const nstring=Array.from(source.children[0].children).map(val=>(val.textContent??'')).join('\n')
-        if(nstring===cstring){
-            return
-        }
-        cstring=nstring
-        await render()
-    })
+    textarea.addEventListener('blur',render)
     return element
 }
-export const stdn:UnitCompiler=async (unit,compiler)=>{
+export const source:UnitCompiler=async (unit,compiler)=>{
     return await compiler.compileUnit({
         tag:'code',
         options:{

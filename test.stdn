@@ -12,6 +12,7 @@
 ]}
 []
 {demo [
+    placeholder
     {css-src main.css, ucs-src ucs.js, global []}
     {demo [
         //
@@ -23,9 +24,10 @@
             ]}, equation []}'}']
         ]}
     ]}
+    placeholder
 ]}
 []
-{stdn [{align [
+{source [{align [
     ['H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{'{id h-vs-h-tilde, compile-with index, equation []}'}'\\]
     ['&\cong\Z \tag*{'{compile-with index, mark {[
         placeholder
@@ -59,7 +61,7 @@
     ]}
 ]}
 []
-{stdn [{global, vsce cpp, code []}]}
+{source [{global, vsce cpp, code []}]}
 []
 {div [flt]}
 []
