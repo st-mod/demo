@@ -15,14 +15,15 @@ export async function createSourcePre(string:string,compiler:Compiler){
         children:string.split('\n').map(val=>val.split(''))
     })
 }
-export async function shadowCompile(string:string,style:HTMLStyleElement,compiler:Compiler){
+export async function shadowCompile(string:string,style:HTMLStyleElement,root:ShadowRoot,compiler:Compiler){
     return await compiler.compile(string,compiler.context.dir,{
         style,
         headSTDN:[
             [{tag:'global',options:{'css-gh':`st-org/stui@${stuiVersion}`},children:[]}],
             [{tag:'global',options:{'css-gh':`st-org/sthl@${sthlVersion}`},children:[]}],
             [{tag:'global',options:{'css-gh':`st-org/st-std@${stStdVersion}`,'ucs-gh':`st-org/st-std@${stStdVersion}`},children:[]}]
-        ]
+        ],
+        root
     })
 }
 export async function toHTMLPre(container:Element,compiler:Compiler){
@@ -89,7 +90,7 @@ export const demo:UnitCompiler=async (unit,compiler)=>{
             textarea.disabled=false
             textarea.focus()
         })
-        const result=await shadowCompile(string,style,compiler)
+        const result=await shadowCompile(string,style,root,compiler)
         if(result===undefined){
             return
         }
@@ -116,7 +117,7 @@ export const result:UnitCompiler=async (unit,compiler)=>{
     const container=document.createElement('div')
     root.append(style)
     root.append(container)
-    const result=await shadowCompile(compiler.stdn.stringify(unit.children),style,compiler)
+    const result=await shadowCompile(compiler.stdn.stringify(unit.children),style,root,compiler)
     if(result===undefined){
         return element
     }
