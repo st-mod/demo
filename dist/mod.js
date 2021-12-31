@@ -1,6 +1,6 @@
 const stuiVersion = '0.6.0';
-const sthlVersion = '0.9.2';
-const stStdVersion = '0.16.2';
+const sthlVersion = '0.9.3';
+const stStdVersion = '0.16.3';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
