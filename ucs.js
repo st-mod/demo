@@ -1,1 +1,1 @@
-export {demo,source,result} from './mod.js'
+export {demo, source, result} from './mod.js'
