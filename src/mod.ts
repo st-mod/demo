@@ -65,6 +65,8 @@ export const demo: UnitCompiler = async (unit, compiler) => {
     const root = resultEle.attachShadow({mode: 'open'})
     const style = document.createElement('style')
     const container = document.createElement('div')
+    source.classList.add('source')
+    resultEle.classList.add('result')
     element.append(source)
     element.append(resultEle)
     root.append(style)

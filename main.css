@@ -17,11 +17,11 @@
     text-align: center;
 }
 
-.unit.demo>div:first-child::before {
+.unit.demo>.source::before {
     content: "Source";
 }
 
-.unit.demo>div:last-child::before {
+.unit.demo>.result::before {
     content: "Result";
 }
 
