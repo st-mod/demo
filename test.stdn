@@ -1,8 +1,8 @@
 {title [Test]}
 {css-src main.css, ucs-src ucs.js, global []}
-{global, no-count, demo []}
-{global, no-count, source []}
-{global, no-count, result []}
+{global, no-count-inside, demo []}
+{global, no-count-inside, source []}
+{global, no-count-inside, result []}
 {demo []}
 []
 {demo [
