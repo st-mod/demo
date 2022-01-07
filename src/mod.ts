@@ -1,7 +1,7 @@
 import type {Compiler, UnitCompiler} from '@ddu6/stc'
 const stuiVersion = '0.8.1'
 const sthlVersion = '0.12.2'
-const stStdVersion = '0.19.3'
+const stStdVersion = '0.19.4'
 export function removePlaceholders(string: string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n')
 }
