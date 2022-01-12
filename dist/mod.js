@@ -71,10 +71,10 @@ export const demo = async (unit, compiler) => {
     async function render() {
         if (sourcePre !== undefined && textarea.value === string) {
             textarea.replaceWith(sourcePre);
-            return;
+            return false;
         }
         if (textarea.disabled) {
-            return;
+            return false;
         }
         textarea.disabled = true;
         string = textarea.value;
@@ -89,18 +89,23 @@ export const demo = async (unit, compiler) => {
         });
         const result = await shadowCompile(string, style, root, compiler);
         if (result === undefined) {
-            return;
+            return true;
         }
         container.innerHTML = '';
         container.append(result.documentFragment);
         if (html) {
             await toHTMLPre(container, result.compiler);
-            return;
+            return true;
         }
         fixHashAnchors(container);
+        return true;
     }
     await render();
-    textarea.addEventListener('blur', render);
+    textarea.addEventListener('blur', async () => {
+        if (await render()) {
+            element.dispatchEvent(new Event('adjust', { bubbles: true, composed: true }));
+        }
+    });
     return element;
 };
 export const source = async (unit, compiler) => {
