@@ -1,6 +1,4 @@
-const stuiVersion = '0.9.1';
-const sthlVersion = '0.12.2';
-const stStdVersion = '0.20.4';
+const stStdVersion = '0.23.3';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
@@ -18,9 +16,7 @@ export async function shadowCompile(string, style, root, compiler) {
     return await compiler.compile(string, compiler.context.dir, {
         style,
         headSTDN: [
-            [{ tag: 'global', options: { 'css-gh': `st-org/stui@${stuiVersion}` }, children: [] }],
-            [{ tag: 'global', options: { 'css-gh': `st-org/sthl@${sthlVersion}` }, children: [] }],
-            [{ tag: 'global', options: { 'css-gh': `st-org/st-std@${stStdVersion}`, 'ucs-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
+            [{ tag: 'global', options: { 'mod-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
         ],
         root
     });
