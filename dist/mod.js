@@ -1,4 +1,4 @@
-const stStdVersion = '0.24.1';
+const stStdVersion = '0.24.2';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
@@ -41,7 +41,7 @@ export function shadowHashAnchorsListener(e) {
     if (href === null || !href.startsWith('#')) {
         return;
     }
-    e.stopImmediatePropagation();
+    e.stopPropagation();
     e.preventDefault();
     const id = decodeURIComponent(href.slice(1));
     let target = e.currentTarget;

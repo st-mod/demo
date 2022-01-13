@@ -1,5 +1,5 @@
 import type {Compiler, UnitCompiler} from '@ddu6/stc'
-const stStdVersion = '0.24.1'
+const stStdVersion = '0.24.2'
 export function removePlaceholders(string: string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n')
 }
@@ -42,7 +42,7 @@ export function shadowHashAnchorsListener(e: MouseEvent) {
     if (href === null || !href.startsWith('#')) {
         return
     }
-    e.stopImmediatePropagation()
+    e.stopPropagation()
     e.preventDefault()
     const id = decodeURIComponent(href.slice(1))
     let target = e.currentTarget
