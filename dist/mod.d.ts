@@ -7,7 +7,7 @@ export declare function shadowCompile(string: string, style: HTMLStyleElement, r
     stdn: import("stdn").STDN;
 } | undefined>;
 export declare function toHTMLPre(container: Element, compiler: Compiler): Promise<void>;
-export declare function fixHashAnchors(container: Element): void;
+export declare function shadowHashAnchorsListener(e: MouseEvent): void;
 export declare const demo: UnitCompiler;
 export declare const source: UnitCompiler;
 export declare const result: UnitCompiler;

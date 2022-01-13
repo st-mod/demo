@@ -33,23 +33,26 @@ export async function toHTMLPre(container, compiler) {
     container.innerHTML = '';
     container.append(pre);
 }
-export function fixHashAnchors(container) {
-    for (const a of container.querySelectorAll('a[href^="#"]')) {
-        const id = decodeURIComponent((a.getAttribute('href') ?? '').slice(1));
-        a.setAttribute('href', '#%20');
-        let target = container;
-        if (id.length > 0) {
-            const target0 = container.querySelector(`[id=${JSON.stringify(id)}]`);
-            if (target0 === null) {
-                continue;
-            }
-            target = target0;
-        }
-        a.addEventListener('click', e => {
-            e.preventDefault();
-            target.scrollIntoView();
-        });
+export function shadowHashAnchorsListener(e) {
+    if (!(e.target instanceof HTMLAnchorElement) || !(e.currentTarget instanceof Element)) {
+        return;
     }
+    const href = e.target.getAttribute('href');
+    if (href === null || !href.startsWith('#')) {
+        return;
+    }
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    const id = decodeURIComponent(href.slice(1));
+    let target = e.currentTarget;
+    if (id.length > 0) {
+        const target0 = target.querySelector(`[id=${JSON.stringify(id)}]`);
+        if (target0 === null) {
+            return;
+        }
+        target = target0;
+    }
+    target.scrollIntoView();
 }
 export const demo = async (unit, compiler) => {
     const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
@@ -97,10 +100,10 @@ export const demo = async (unit, compiler) => {
             await toHTMLPre(container, result.compiler);
             return true;
         }
-        fixHashAnchors(container);
         return true;
     }
     await render();
+    container.addEventListener('click', shadowHashAnchorsListener);
     textarea.addEventListener('blur', async () => {
         if (await render()) {
             element.dispatchEvent(new Event('adjust', { bubbles: true, composed: true }));
@@ -128,6 +131,6 @@ export const result = async (unit, compiler) => {
         await toHTMLPre(container, result.compiler);
         return element;
     }
-    fixHashAnchors(container);
+    container.addEventListener('click', shadowHashAnchorsListener);
     return element;
 };
