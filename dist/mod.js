@@ -1,4 +1,4 @@
-const stStdVersion = '0.24.2';
+const stStdVersion = '0.24.3';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
