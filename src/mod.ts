@@ -1,5 +1,5 @@
 import type {Compiler, UnitCompiler} from '@ddu6/stc'
-const stStdVersion = '0.25.2'
+const stStdVersion = '0.25.3'
 export function removePlaceholders(string: string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n')
 }
