@@ -1,4 +1,5 @@
-const stStdVersion = '0.26.1';
+import { stringify } from 'stdn/dist/stringify';
+const stStdVersion = '0.28.3';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
@@ -12,8 +13,11 @@ export async function createSourcePre(string, compiler) {
         children: string.split('\n').map(val => val.split(''))
     });
 }
-export async function shadowCompile(string, style, root, compiler) {
-    return await compiler.compile(string, compiler.context.dir, {
+export async function shadowCompile(string, style, root, url, compiler) {
+    return await compiler.compile([{
+            value: string,
+            url
+        }], {
         style,
         headSTDN: [
             [{ tag: 'global', options: { 'mod-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
@@ -55,7 +59,6 @@ export function shadowHashAnchorsListener(e) {
     target.scrollIntoView();
 }
 export const demo = async (unit, compiler) => {
-    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
     const element = document.createElement('div');
     const source = document.createElement('div');
     const resultEle = document.createElement('div');
@@ -69,7 +72,9 @@ export const demo = async (unit, compiler) => {
     element.append(resultEle);
     root.append(style);
     root.append(container);
-    let string = textarea.value = removePlaceholders(compiler.stdn.stringify(unit.children));
+    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
+    const url = compiler.context.urlToAbsURL('', unit);
+    let string = textarea.value = removePlaceholders(stringify(unit.children));
     let sourcePre;
     async function render() {
         if (sourcePre !== undefined && textarea.value === string) {
@@ -90,7 +95,7 @@ export const demo = async (unit, compiler) => {
             textarea.disabled = false;
             textarea.focus();
         });
-        const result = await shadowCompile(string, style, root, compiler);
+        const result = await shadowCompile(string, style, root, url, compiler);
         if (result === undefined) {
             return true;
         }
@@ -112,17 +117,17 @@ export const demo = async (unit, compiler) => {
     return element;
 };
 export const source = async (unit, compiler) => {
-    return await createSourcePre(removePlaceholders(compiler.stdn.stringify(unit.children)), compiler);
+    return await createSourcePre(removePlaceholders(stringify(unit.children)), compiler);
 };
 export const result = async (unit, compiler) => {
-    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true;
     const element = document.createElement('div');
     const root = element.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     const container = document.createElement('div');
     root.append(style);
     root.append(container);
-    const result = await shadowCompile(compiler.stdn.stringify(unit.children), style, root, compiler);
+    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true;
+    const result = await shadowCompile(stringify(unit.children), style, root, compiler.context.urlToAbsURL('', unit), compiler);
     if (result === undefined) {
         return element;
     }
