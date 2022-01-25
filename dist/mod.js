@@ -10,7 +10,7 @@ export async function createSourcePre(string, compiler) {
             lang: 'stdn',
             block: true
         },
-        children: string.split('\n').map(val => val.split(''))
+        children: string.split('\n').map(value => value.split(''))
     });
 }
 export async function shadowCompile(string, style, root, url, compiler) {
@@ -32,7 +32,7 @@ export async function toHTMLPre(container, compiler) {
                     lang: 'html',
                     block: true
                 },
-                children: container.innerHTML.split('\n').map(val => val.split(''))
+                children: container.innerHTML.split('\n').map(value => value.split(''))
             }]]);
     container.innerHTML = '';
     container.append(pre);
