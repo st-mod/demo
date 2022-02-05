@@ -39,25 +39,34 @@ export async function toHTMLPre(container: Element, compiler: Compiler) {
     container.append(pre)
 }
 export function shadowHashAnchorsListener(e: MouseEvent) {
-    if (!(e.target instanceof HTMLAnchorElement) || !(e.currentTarget instanceof Element)) {
+    if (!(e.currentTarget instanceof Element)) {
         return
     }
-    const href = e.target.getAttribute('href')
-    if (href === null || !href.startsWith('#')) {
-        return
-    }
-    e.stopPropagation()
-    e.preventDefault()
-    const id = decodeURIComponent(href.slice(1))
-    let target = e.currentTarget
-    if (id.length > 0) {
-        const target0 = target.querySelector(`[id=${JSON.stringify(id)}]`)
-        if (target0 === null) {
+    for (const target of e.composedPath()) {
+        if (!(target instanceof HTMLAnchorElement)) {
+            continue
+        }
+        const href = target.getAttribute('href')
+        if (href === null) {
+            continue
+        }
+        if (!href.startsWith('#')) {
             return
         }
-        target = target0
+        e.stopPropagation()
+        e.preventDefault()
+        const id = decodeURIComponent(href.slice(1))
+        let {currentTarget} = e
+        if (id.length > 0) {
+            const result = currentTarget.querySelector(`[id=${JSON.stringify(id)}]`)
+            if (result === null) {
+                return
+            }
+            currentTarget = result
+        }
+        currentTarget.scrollIntoView()
+        return
     }
-    target.scrollIntoView()
 }
 export const demo: UnitCompiler = async (unit, compiler) => {
     const element = document.createElement('div')
