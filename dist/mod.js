@@ -46,10 +46,7 @@ export function shadowHashAnchorsListener(e) {
             continue;
         }
         const href = target.getAttribute('href');
-        if (href === null) {
-            continue;
-        }
-        if (!href.startsWith('#')) {
+        if (href === null || !href.startsWith('#')) {
             return;
         }
         e.stopPropagation();
