@@ -51,16 +51,15 @@ export function shadowHashAnchorsListener(e) {
         }
         e.stopPropagation();
         e.preventDefault();
-        const id = decodeURIComponent(href.slice(1));
-        let { currentTarget } = e;
-        if (id.length > 0) {
-            const result = currentTarget.querySelector(`[id=${JSON.stringify(id)}]`);
-            if (result === null) {
-                return;
-            }
-            currentTarget = result;
+        if (href.length === 1) {
+            e.currentTarget.scrollIntoView();
+            return;
         }
-        currentTarget.scrollIntoView();
+        const id = decodeURIComponent(href.slice(1));
+        const result = e.currentTarget.querySelector(`[id=${JSON.stringify(id)}]`);
+        if (result !== null) {
+            result.scrollIntoView();
+        }
         return;
     }
 }
