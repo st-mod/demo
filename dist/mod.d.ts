@@ -1,6 +1,7 @@
 import type { Compiler, UnitCompiler } from '@ddu6/stc';
 export declare function removePlaceholders(string: string): string;
 export declare function createSourcePre(string: string, compiler: Compiler): Promise<HTMLElement | SVGElement>;
+export declare function createParsePre(string: string, compiler: Compiler): Promise<HTMLElement | SVGElement>;
 export declare function shadowCompile(string: string, style: HTMLStyleElement, root: ShadowRoot, url: string, compiler: Compiler): Promise<{
     compiler: Compiler;
     documentFragment: DocumentFragment;

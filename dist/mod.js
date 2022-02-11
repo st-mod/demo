@@ -1,3 +1,4 @@
+import { stringify as stonStringify } from 'ston/dist/stringify';
 import { stringify } from 'stdn/dist/stringify';
 const stStdVersion = '0.28.3';
 export function removePlaceholders(string) {
@@ -11,6 +12,20 @@ export async function createSourcePre(string, compiler) {
             block: true
         },
         children: string.split('\n').map(value => value.split(''))
+    });
+}
+export async function createParsePre(string, compiler) {
+    return await compiler.compileUnit({
+        tag: 'code',
+        options: {
+            lang: 'ston',
+            block: true
+        },
+        children: stonStringify(compiler.stdn.parse(string), {
+            addDecorativeSpace: 'always',
+            indentTarget: 'all',
+            useUnquotedString: true
+        }).split('\n').map(value => value.split(''))
     });
 }
 export async function shadowCompile(string, style, root, url, compiler) {
@@ -68,15 +83,11 @@ export const demo = async (unit, compiler) => {
     const source = document.createElement('div');
     const resultEle = document.createElement('div');
     const textarea = document.createElement('textarea');
-    const root = resultEle.attachShadow({ mode: 'open' });
-    const style = document.createElement('style');
-    const container = document.createElement('div');
     source.classList.add('source');
     resultEle.classList.add('result');
     element.append(source);
     element.append(resultEle);
-    root.append(style);
-    root.append(container);
+    const parse = (unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true;
     const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
     const url = compiler.context.urlToAbsURL('', unit);
     let string = textarea.value = removePlaceholders(stringify(unit.children));
@@ -100,20 +111,29 @@ export const demo = async (unit, compiler) => {
             textarea.disabled = false;
             textarea.focus();
         });
+        resultEle.innerHTML = '';
+        if (parse) {
+            resultEle.append(await createParsePre(string, compiler));
+            return true;
+        }
+        const root = resultEle.attachShadow({ mode: 'open' });
+        const style = document.createElement('style');
+        const container = document.createElement('div');
+        root.append(style);
+        root.append(container);
         const result = await shadowCompile(string, style, root, url, compiler);
         if (result === undefined) {
             return true;
         }
-        container.innerHTML = '';
         container.append(result.documentFragment);
         if (html) {
             await toHTMLPre(container, result.compiler);
             return true;
         }
+        container.addEventListener('click', shadowHashAnchorsListener);
         return true;
     }
     await render();
-    container.addEventListener('click', shadowHashAnchorsListener);
     textarea.addEventListener('blur', async () => {
         if (await render()) {
             element.dispatchEvent(new Event('adjust', { bubbles: true, composed: true }));
@@ -126,6 +146,11 @@ export const source = async (unit, compiler) => {
 };
 export const result = async (unit, compiler) => {
     const element = document.createElement('div');
+    const parse = (unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true;
+    if (parse) {
+        element.append(await createParsePre(stringify(unit.children), compiler));
+        return element;
+    }
     const root = element.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     const container = document.createElement('div');
