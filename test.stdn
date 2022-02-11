@@ -64,6 +64,11 @@
     ]}, equation []}]
 ]}
 []
+{parse, demo [
+    first line
+    ['second '{span [line]}]
+]}
+[]
 {html, demo [
     first line
     ['second '{span [line]}]
