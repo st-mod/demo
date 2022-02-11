@@ -87,11 +87,46 @@ export const demo = async (unit, compiler) => {
     resultEle.classList.add('result');
     element.append(source);
     element.append(resultEle);
-    const parse = (unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true;
-    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
-    const url = compiler.context.urlToAbsURL('', unit);
     let string = textarea.value = removePlaceholders(stringify(unit.children));
     let sourcePre;
+    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true) {
+        async function render() {
+            if (sourcePre !== undefined && textarea.value === string) {
+                textarea.replaceWith(sourcePre);
+                return false;
+            }
+            if (textarea.disabled) {
+                return false;
+            }
+            textarea.disabled = true;
+            string = textarea.value;
+            const pre = sourcePre = await createSourcePre(string, compiler);
+            source.innerHTML = '';
+            source.append(pre);
+            pre.addEventListener('click', () => {
+                pre.replaceWith(textarea);
+                textarea.disabled = false;
+                textarea.focus();
+            });
+            resultEle.innerHTML = '';
+            resultEle.append(await createParsePre(string, compiler));
+            return true;
+        }
+        await render();
+        textarea.addEventListener('blur', async () => {
+            if (await render()) {
+                element.dispatchEvent(new Event('adjust', { bubbles: true, composed: true }));
+            }
+        });
+        return element;
+    }
+    const root = resultEle.attachShadow({ mode: 'open' });
+    const style = document.createElement('style');
+    const container = document.createElement('div');
+    root.append(style);
+    root.append(container);
+    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
+    const url = compiler.context.urlToAbsURL('', unit);
     async function render() {
         if (sourcePre !== undefined && textarea.value === string) {
             textarea.replaceWith(sourcePre);
@@ -102,35 +137,24 @@ export const demo = async (unit, compiler) => {
         }
         textarea.disabled = true;
         string = textarea.value;
-        const pre = await createSourcePre(string, compiler);
+        const pre = sourcePre = await createSourcePre(string, compiler);
         source.innerHTML = '';
-        sourcePre = pre;
         source.append(pre);
         pre.addEventListener('click', () => {
             pre.replaceWith(textarea);
             textarea.disabled = false;
             textarea.focus();
         });
-        resultEle.innerHTML = '';
-        if (parse) {
-            resultEle.append(await createParsePre(string, compiler));
-            return true;
-        }
-        const root = resultEle.attachShadow({ mode: 'open' });
-        const style = document.createElement('style');
-        const container = document.createElement('div');
-        root.append(style);
-        root.append(container);
         const result = await shadowCompile(string, style, root, url, compiler);
         if (result === undefined) {
             return true;
         }
+        container.innerHTML = '';
         container.append(result.documentFragment);
         if (html) {
             await toHTMLPre(container, result.compiler);
             return true;
         }
-        container.addEventListener('click', shadowHashAnchorsListener);
         return true;
     }
     await render();
@@ -139,6 +163,7 @@ export const demo = async (unit, compiler) => {
             element.dispatchEvent(new Event('adjust', { bubbles: true, composed: true }));
         }
     });
+    container.addEventListener('click', shadowHashAnchorsListener);
     return element;
 };
 export const source = async (unit, compiler) => {
@@ -146,8 +171,7 @@ export const source = async (unit, compiler) => {
 };
 export const result = async (unit, compiler) => {
     const element = document.createElement('div');
-    const parse = (unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true;
-    if (parse) {
+    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true) {
         element.append(await createParsePre(stringify(unit.children), compiler));
         return element;
     }
@@ -156,13 +180,12 @@ export const result = async (unit, compiler) => {
     const container = document.createElement('div');
     root.append(style);
     root.append(container);
-    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true;
     const result = await shadowCompile(stringify(unit.children), style, root, compiler.context.urlToAbsURL('', unit), compiler);
     if (result === undefined) {
         return element;
     }
     container.append(result.documentFragment);
-    if (html) {
+    if ((unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true) {
         await toHTMLPre(container, result.compiler);
         return element;
     }
