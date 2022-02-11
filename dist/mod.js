@@ -1,6 +1,6 @@
 import { stringify as stonStringify } from 'ston/dist/stringify';
 import { stringify } from 'stdn/dist/stringify';
-const stStdVersion = '0.28.4';
+const stStdVersion = '0.29.0';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
