@@ -171,7 +171,7 @@ export const source = async (unit, compiler) => {
 };
 export const result = async (unit, compiler) => {
     const element = document.createElement('div');
-    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true) {
+    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'result', compiler.context.tagToGlobalOptions)) === true) {
         element.append(await createParsePre(stringify(unit.children), compiler));
         return element;
     }
