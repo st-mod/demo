@@ -1,6 +1,6 @@
 import { stringify as stonStringify } from 'ston/dist/stringify';
 import { stringify } from 'stdn/dist/stringify';
-const stStdVersion = '0.29.4';
+const stStdVersion = '0.30.0';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }
@@ -89,7 +89,7 @@ export const demo = async (unit, compiler) => {
     element.append(resultEle);
     let string = textarea.value = removePlaceholders(stringify(unit.children));
     let sourcePre;
-    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'demo', compiler.context.tagToGlobalOptions)) === true) {
+    if ((unit.options.parse ?? compiler.context.extractLastGlobalOption('parse', 'demo')) === true) {
         async function render() {
             if (sourcePre !== undefined && textarea.value === string) {
                 textarea.replaceWith(sourcePre);
@@ -125,7 +125,7 @@ export const demo = async (unit, compiler) => {
     const container = document.createElement('div');
     root.append(style);
     root.append(container);
-    const html = (unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'demo', compiler.context.tagToGlobalOptions)) === true;
+    const html = (unit.options.html ?? compiler.context.extractLastGlobalOption('html', 'demo')) === true;
     const url = compiler.context.urlToAbsURL('', unit);
     async function render() {
         if (sourcePre !== undefined && textarea.value === string) {
@@ -171,7 +171,7 @@ export const source = async (unit, compiler) => {
 };
 export const result = async (unit, compiler) => {
     const element = document.createElement('div');
-    if ((unit.options.parse ?? compiler.extractor.extractLastGlobalOption('parse', 'result', compiler.context.tagToGlobalOptions)) === true) {
+    if ((unit.options.parse ?? compiler.context.extractLastGlobalOption('parse', 'result')) === true) {
         element.append(await createParsePre(stringify(unit.children), compiler));
         return element;
     }
@@ -185,7 +185,7 @@ export const result = async (unit, compiler) => {
         return element;
     }
     container.append(result.documentFragment);
-    if ((unit.options.html ?? compiler.extractor.extractLastGlobalOption('html', 'result', compiler.context.tagToGlobalOptions)) === true) {
+    if ((unit.options.html ?? compiler.context.extractLastGlobalOption('html', 'result')) === true) {
         await toHTMLPre(container, result.compiler);
         return element;
     }
