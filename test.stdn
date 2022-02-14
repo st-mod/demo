@@ -9,7 +9,7 @@
     //
     {align [
         [H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{id h-vs-h-tilde, compile-with index, equation []}\\]
-        [&\cong\Z \tag*{compile-with index, mark {[
+        [&\cong\Z \tag*{compile-with index, mark {span [
             placeholder
             [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
         ]}, equation []}]
@@ -23,7 +23,7 @@
         placeholder
         {align [
             [H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{id h-vs-h-tilde, compile-with index, equation []}\\]
-            [&\cong\Z \tag*{compile-with index, mark {[
+            [&\cong\Z \tag*{compile-with index, mark {span [
                 placeholder placeholder
                 [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
             ]}, equation []}]
@@ -36,7 +36,7 @@
     //
     {align [
         [H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{id h-vs-h-tilde, compile-with index, equation []}\\]
-        [&\cong\Z \tag*{compile-with index, mark {[
+        [&\cong\Z \tag*{compile-with index, mark {span [
             placeholder
             [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
         ]}, equation []}]
@@ -47,7 +47,7 @@
     //
     {align [
         [H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{id h-vs-h-tilde, compile-with index, equation []}\\]
-        [&\cong\Z \tag*{compile-with index, mark {[
+        [&\cong\Z \tag*{compile-with index, mark {span [
             //
             [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
         ]}, equation []}]
@@ -58,7 +58,7 @@
 []
 {align [
     [H_0(pt)&\cong\tilde H_0(pt)\oplus\Z \tag*{id h-vs-h-tilde, compile-with index, equation []}\\]
-    [&\cong\Z \tag*{compile-with index, mark {[
+    [&\cong\Z \tag*{compile-with index, mark {span [
         //
         [{ref-id h-vs-h-tilde, class no-tag, ref []}{'\''}]
     ]}, equation []}]
