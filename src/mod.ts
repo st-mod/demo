@@ -1,4 +1,3 @@
-import type {STON} from 'ston'
 import {stringify as stonStringify} from 'ston/dist/stringify'
 import {stringify} from 'stdn/dist/stringify'
 import type {Compiler, UnitCompiler} from '@ddu6/stc'
@@ -23,7 +22,7 @@ export async function createParsePre(string: string, compiler: Compiler) {
             lang: 'ston',
             block: true
         },
-        children: stonStringify(<STON | undefined>compiler.stdn.parse(string), {
+        children: stonStringify(compiler.stdn.parse(string), {
             addDecorativeSpace: 'always',
             indentTarget: 'all',
             useUnquotedString: true
