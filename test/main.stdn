@@ -1,5 +1,5 @@
 {title [Test]}
-{css-src main.css, ucs-src ucs.js, global []}
+{css-src ../main.css, ucs-src ../ucs.js, global []}
 {global, no-count-inside, demo []}
 {global, no-count-inside, source []}
 {global, no-count-inside, result []}
@@ -18,7 +18,7 @@
 []
 {demo [
     placeholder
-    {css-src main.css, ucs-src ucs.js, global []}
+    {css-src ../main.css, ucs-src ../ucs.js, global []}
     {demo [
         placeholder
         {align [
@@ -110,7 +110,7 @@
 ]}
 []
 {demo [
-    {css-src main.css, ucs-src ucs.js, global []}
+    {css-src ../main.css, ucs-src ../ucs.js, global []}
     {demo [
         Top
         {id flt, mark FLT, desc Fermat, theorem [
