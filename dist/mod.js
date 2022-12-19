@@ -29,7 +29,7 @@ export async function createParsePre(string, compiler) {
     });
 }
 export async function shadowCompile(string, style, root, url, compiler) {
-    const stdURL = new URL(`../../st-std@${stStdVersion}`, import.meta.url).href;
+    const stdURL = new URL(`../st-std@${stStdVersion}`, import.meta.url).href;
     return await compiler.compile([{
             value: string,
             url

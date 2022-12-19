@@ -4,6 +4,13 @@ module.exports = {
         outputModule: true
     },
     mode: 'production',
+    module: {
+        parser: {
+            javascript: {
+                importMeta: false
+            }
+        }
+    },
     output: {
         filename: 'mod.js',
         library: {

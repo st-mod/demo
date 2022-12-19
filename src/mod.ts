@@ -30,7 +30,7 @@ export async function createParsePre(string: string, compiler: Compiler) {
     })
 }
 export async function shadowCompile(string: string, style: HTMLStyleElement, root: ShadowRoot, url: string, compiler: Compiler) {
-    const stdURL = new URL(`../../st-std@${stStdVersion}`, import.meta.url).href
+    const stdURL = new URL(`../st-std@${stStdVersion}`, import.meta.url).href
     return await compiler.compile([{
         value: string,
         url
