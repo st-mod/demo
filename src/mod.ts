@@ -30,13 +30,14 @@ export async function createParsePre(string: string, compiler: Compiler) {
     })
 }
 export async function shadowCompile(string: string, style: HTMLStyleElement, root: ShadowRoot, url: string, compiler: Compiler) {
+    const stdURL = new URL(`../../st-std@${stStdVersion}`, import.meta.url).href
     return await compiler.compile([{
         value: string,
         url
     }], {
         style,
         headSTDN: [
-            [{tag: 'global', options: {'mod-gh': `st-org/st-std@${stStdVersion}`}, children: []}]
+            [{tag: 'global', options: {'mod-src': stdURL}, children: []}]
         ],
         root
     })

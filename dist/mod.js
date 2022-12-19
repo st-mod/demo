@@ -29,13 +29,15 @@ export async function createParsePre(string, compiler) {
     });
 }
 export async function shadowCompile(string, style, root, url, compiler) {
+    const stdURL = new URL(`../../st-std@${stStdVersion}`, import.meta.url).href;
+    console.log(import.meta.url);
     return await compiler.compile([{
             value: string,
             url
         }], {
         style,
         headSTDN: [
-            [{ tag: 'global', options: { 'mod-gh': `st-org/st-std@${stStdVersion}` }, children: [] }]
+            [{ tag: 'global', options: { 'mod-src': stdURL }, children: [] }]
         ],
         root
     });
