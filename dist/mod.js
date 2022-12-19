@@ -36,7 +36,12 @@ export async function shadowCompile(string, style, root, url, compiler) {
         }], {
         style,
         headSTDN: [
-            [{ tag: 'global', options: { 'mod-src': stdURL }, children: [] }]
+            [{
+                    tag: 'global', options: {
+                        'css-src': `${stdURL}/main.css`,
+                        'ucs-src': `${stdURL}/ucs.js`
+                    }, children: []
+                }]
         ],
         root
     });
