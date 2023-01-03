@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { stringify as stonStringify } from 'ston/dist/stringify';
 import { stringify } from 'stdn/dist/stringify';
-const stStdVersion = '0.31.6';
+const stStdVersion = '0.31.9';
 export function removePlaceholders(string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n');
 }

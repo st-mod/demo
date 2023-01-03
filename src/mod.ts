@@ -1,7 +1,7 @@
 import {stringify as stonStringify} from 'ston/dist/stringify'
 import {stringify} from 'stdn/dist/stringify'
 import type {Compiler, UnitCompiler} from '@ddu6/stc'
-const stStdVersion = '0.31.6'
+const stStdVersion = '0.31.9'
 export function removePlaceholders(string: string) {
     return string.replace(/\n? *placeholder(\n|$)/g, '\n')
 }
